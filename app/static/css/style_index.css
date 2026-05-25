@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700;800&family=Karla:wght@400;500;700&display=swap');
+
+/* ── CSS variabelen ── */
+
+:root {
+    --color-primary: #3b1fa3;
+    --color-primary-dark: #2d178a;
+    --color-accent: #e8372a;
+    --color-accent-dark: #c92d22;
+    --color-background: #ffffff;
+    --color-white: white;
+    --color-text-dark: #1a0a4a;
+    --color-text-muted: #6b6080;
+    --color-border: #ece9ff;
+    --font-display: 'Karla', sans-serif;
+    --font-body: 'Karla', sans-serif;
+}
+
+
+/* ── Algemene pagina stijl ── */
+
+body {
+    font-family: var(--font-body);
+}
+
+
+/* ── Knoppen ── */
+
+/* Donkere knop voor navigatie */
+.bb-nav-btn {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: 99px;
+    padding: 0.55rem 1.5rem;
+    font-family: var(--font-body);
+    text-decoration: none;
+}
+
+.bb-nav-btn:hover {
+    background: var(--color-primary-dark);
+    color: var(--color-white);
+}
+
+/* Rode actieknop voor inloggen */
+.bb-btn-primary {
+    background: var(--color-accent);
+    color: var(--color-white);
+    border: none;
+    border-radius: 99px;
+    padding: 0.8rem 2rem;
+    font-family: var(--font-body);
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.bb-btn-primary:hover {
+    background: var(--color-accent-dark);
+    color: var(--color-white);
+}
+
+/* ── Hero sectie ── */
+
+.bb-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem 2.5rem;
+}
+
+.bb-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--color-text-dark);
+    max-width: 600px;
+    margin: 0 0 1rem;
+}
+
+/* Rode accentkleur op de merknaam */
+.bb-hero h1 em {
+    font-style: normal;
+    color: var(--color-accent);
+}
+
+.bb-hero p {
+    color: var(--color-text-muted);
+    max-width: 460px;
+    line-height: 1.7;
+    margin: 0 0 2rem;
+}
+
+/* ── Rollenkaarten ── */
+
+/* Drie kaarten voor leerling, docent en ouder */
+.bb-roles {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: 2.5rem 2rem;
+    flex-wrap: wrap;
+}
+
+.bb-role-card {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 1.75rem 1.5rem;
+    width: 190px;
+    text-align: center;
+}
+
+.bb-role-card i {
+    font-size: 2rem;
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.bb-role-card h3 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--color-text-dark);
+    margin: 0 0 0.35rem;
+}
+
+.bb-role-card p {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ── Footer ── */
+
+.bb-footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--color-border);
+    background: var(--color-white);
+}

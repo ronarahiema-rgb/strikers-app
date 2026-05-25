@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}BrainBoost – Wachtwoord wijzigen{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_login.css') }}">
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+
+    <h1>Wachtwoord wijzigen</h1>
+    <p class="subtitle">Vul je huidige en nieuwe wachtwoord in.</p>
+
+    <form method="POST" action="{{ url_for('main.wachtwoord_wijzigen') }}">
+
+      <div class="form-group">
+        <label for="huidig_wachtwoord">Huidig wachtwoord</label>
+        <input type="password" id="huidig_wachtwoord" name="huidig_wachtwoord" placeholder="Voer je huidige wachtwoord in" required>
+      </div>
+
+      <div class="form-group">
+        <label for="nieuw_wachtwoord">Nieuw wachtwoord</label>
+        <input type="password" id="nieuw_wachtwoord" name="nieuw_wachtwoord" placeholder="Minimaal 6 tekens" required>
+      </div>
+
+      <div class="form-group">
+        <label for="bevestig_wachtwoord">Bevestig nieuw wachtwoord</label>
+        <input type="password" id="bevestig_wachtwoord" name="bevestig_wachtwoord" placeholder="Herhaal je nieuwe wachtwoord" required>
+      </div>
+
+      <button type="submit" class="btn" style="margin-top: 8px;">Opslaan</button>
+
+      <p class="info-text">
+        <a href="{{ url_for('main.index') }}" class="btn-register">Terug naar home</a>
+      </p>
+
+    </form>
+
+  </div>
+{% endblock %}

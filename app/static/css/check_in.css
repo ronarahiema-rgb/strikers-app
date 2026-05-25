@@ -1,0 +1,159 @@
+/* ── 1. Variabelen & Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700;800&family=Karla:wght@400;500;700&display=swap');
+
+:root {
+  --bb-blue:    rgb(82, 121, 186);
+  --bb-teal:    rgb(4, 184, 188);
+  --bb-red:     #e8372a;
+  --bb-red-dark: #c92d22;
+  --bb-indigo:  rgb(55, 66, 143);
+  --bb-purple:  #5c3fa3;
+  --bb-light-blue: #e6f4ff;
+  --bb-bg-alt: #f0eef9;
+  
+  --bg:      #f7f9fc;
+  --text:    #1c1f2a;
+  --radius:  12px;
+  --shadow:  0 8px 20px rgba(0, 0, 0, 0.1);
+  --transition: all .2s ease-in-out;
+}
+
+/* ── 2. Basis & Reset ── */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', "Karla", sans-serif;
+  background: var(--bb-bg-alt);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+
+
+.logo {
+  font-family: "Inconsolata", monospace;
+  font-weight: 700;
+  color: white;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-decoration: none;
+}
+
+/* ── 4. Layout ── */
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.form-wrapper {
+  max-width: 650px;
+  width: 95%;
+  margin: 40px auto;
+  padding: 30px;
+  background: var(--bb-light-blue);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid #e1efff;
+}
+
+/* ── 5. Kaarten & UI Componenten ── */
+.card {
+  background: #e8e5f5;
+  border: none;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* De speciale Emoji/Radio buttons */
+.pick-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  padding: 10px;
+}
+
+.pick-btn {
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: none;
+  background: none;
+  transition: transform .15s, background .15s, opacity .15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pick-btn:hover {
+  background: #c9c3e8;
+  transform: scale(1.15);
+}
+
+.pick-btn input[type=radio] { display: none; }
+
+/* Als een radio button in de knop gecheckt is */
+.pick-btn:has(input[type=radio]:checked) {
+  background: var(--bb-purple);
+  transform: scale(1.25);
+  box-shadow: 0 4px 14px rgba(92,63,163,.4);
+}
+
+/* Vervaag de andere knoppen in de groep als er één gekozen is */
+.pick-group:has(input[type=radio]:checked) .pick-btn:not(:has(input[type=radio]:checked)) {
+  opacity: 0.35;
+  transform: scale(0.9);
+}
+
+/* ── 6. Knoppen ── */
+.btn-checkin {
+  background: var(--bb-red);
+  color: white;
+  border: none;
+  border-radius: 99px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 12px 30px;
+  transition: var(--transition);
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn-checkin:hover {
+  background: var(--bb-red-dark);
+  transform: translateY(-2px);
+}
+
+/* ── 7. Formulieren ── */
+textarea {
+  resize: none;
+  width: 100%;
+  border-radius: 10px;
+  padding: 12px;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.form-group label {
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* ── 8. Media Queries ── */
+@media (max-width: 768px) {
+  .form-wrapper {
+    width: 95%;
+    padding: 20px;
+  }
+  
+  .logo {
+    position: static;
+    transform: none;
+    margin: 0 auto;
+  }
+}

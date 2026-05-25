@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}BrainBoost – Check-out{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style_checkin.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+{% endblock %}
+
+{% block header %}
+
+  <form class="form-wrapper" method="POST" action="{{ url_for('main.check_out') }}">
+    
+   <div id="errorMessage" class="error-message">
+    Vul alsjeblieft alle velden in en beweeg de sliders!
+  </div>
+
+    <h2>Terugblik <span class="badge badge-success">Check-out</span></h2>
+
+    <div class="form-group">
+       <label title="Slecht tot Heel goed">Hoe voel je je?ℹ️</label>
+      <div class="d-flex align-items-center">
+        <iconify-icon icon="ic:baseline-cloud" style="color: lightblue; font-size: 40px;"></iconify-icon>
+        <input type="range" min="0" max="3" step="1" class="slider" id="myRange">
+        <iconify-icon icon="material-symbols:clear-day-rounded" style="color: yellow; font-size: 40px;"></iconify-icon>
+      </div>
+
+  <p id="sliderWord" style="text-align:center; margin-top:10px;">Kies een optie</p>
+  <input type="hidden" name="feeling" id="feelingInput" value="">
+</div>
+
+<script>
+// Get DOM elements
+const slider = document.getElementById("myRange");
+const output = document.getElementById("sliderWord");
+const hiddenInput = document.getElementById("feelingInput");
+
+// Slider labels for feeling input
+const feelingWords = ["Slecht", "Matig", "Goed", "Heel goed"];
+
+// Retrieve previously saved feeling to persist user input after reload
+const savedFeeling = "{{ feeling|default('') }}";
+
+if (savedFeeling) {
+    const index = feelingWords.indexOf(savedFeeling);
+
+    if (index !== -1) {
+        slider.value = index;
+        output.textContent = feelingWords[index];
+        hiddenInput.value = feelingWords[index];
+    }
+} else {
+    output.textContent = "Kies een optie";
+}
+
+// Update slider value live
+slider.addEventListener("input", () => {
+    output.textContent = feelingWords[slider.value];
+    hiddenInput.value = feelingWords[slider.value];
+});
+</script>
+      </div>
+    </div>
+
+    
+<div class="form-group text-center">
+   <label title="Zeer weinig tot Zeer veel">Hoe voel energie heb je?ℹ️</label>
+  <div class="battery-container">
+    <!-- Radio buttons for selection -->
+    <input type="radio" name="energy" id="energy1" value="25"  {% if energy == "1" %}checked{% endif %}>
+    <input type="radio" name="energy" id="energy2" value="50"  {% if energy == "2" %}checked{% endif %}>
+    <input type="radio" name="energy" id="energy3" value="75"  {% if energy == "3" %}checked{% endif %}>
+    <input type="radio" name="energy" id="energy4" value="100"  {% if energy == "4" %}checked{% endif %}>
+
+    <!-- Battery frame -->
+    <div class="battery">
+      <div class="cells">
+        <label for="energy1" class="cell"></label>
+        <label for="energy2" class="cell"></label>
+        <label for="energy3" class="cell"></label>
+        <label for="energy4" class="cell"></label>
+      </div>
+      <div class="battery-tip"></div>
+    </div>
+  </div>
+</div>
+
+
+<div class="form-group">
+  <label title="Nee tot Ja">Ben je tevreden over hoe je vandaag hebt gewerkt?ℹ️</label>
+  <div class="d-flex align-items-center">
+    <iconify-icon icon="ic:baseline-close" style="color:red; font-size:30px;"></iconify-icon>
+
+    <!-- Slider with percentage -->
+    <input type="range" min="0" max="100" value="{{ satisfaction or 50}}" name="satisfaction_percentage" class="form-control-range mx-3" 
+           oninput="this.nextElementSibling.value = this.value; this.dataset.changed = 'true'">
+    <output>{{ satisfaction or 50}}</output>% <!-- Shows live percentage -->
+    <iconify-icon icon="ic:baseline-check" style="color:green; font-size:30px;"></iconify-icon>
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="les-opmerking-label" for="les_opmerking">Hoe ging de les? ℹ️ <span>(optioneel)</span></label>
+    <textarea name="les_opmerking" id="les_opmerking" rows="3" 
+              placeholder="Schrijf hier iets over hoe de les ging…"></textarea>
+</div>
+  
+  <script>
+  /*** Validate the check-out form before submission.* Prevents submission if any slider is not set.*/
+document.querySelector('form').addEventListener('submit', function(e) {
+    const feeling = document.getElementById('feelingInput').value;
+    const satisfaction = document.querySelector('input[name="satisfaction_percentage"]').dataset.changed;
+    const errorDiv = document.getElementById('errorMessage');
+
+    if (!feeling || satisfaction !== "true") {
+    e.preventDefault();
+    errorDiv.classList.add("show");
+} else {
+    errorDiv.classList.remove("show");
+}
+});
+
+</script>
+
+    <div id="overlay" class="overlay">
+      <div class="overlay-card">
+        <h4>Wil je uitchecken?</h4>
+        <p class="overlay-tekst"></p>
+        <div class="overlay-knoppen">
+          <button type="button" class="btn btn-secondary" onclick="document.getElementById('overlay').style.display='none'">Annuleren</button>
+          <button type="button" class="btn btn-danger" onclick="document.querySelector('form').submit()">Ja, uitchecken</button>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-danger" onclick="toonBevestiging()">Check out!</button>
+
+    <script>
+    function toonBevestiging() {
+        const feeling = document.getElementById('feelingInput').value;
+        const satisfaction = document.querySelector('input[name="satisfaction_percentage"]').dataset.changed;
+        const errorDiv = document.getElementById('errorMessage');
+
+        if (!feeling || satisfaction !== "true") {
+            errorDiv.classList.add("show");
+            return;
+        }
+        errorDiv.classList.remove("show");
+        document.getElementById('overlay').style.display = 'flex';
+    }
+    </script>
+
+  </form>
+
+{% endblock %}

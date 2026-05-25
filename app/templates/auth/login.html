@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}BrainBoost – Inloggen{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_login.css') }}">
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+
+    <h1>Welkom bij BrainBoost</h1>
+    <p class="subtitle">Log in om je leersessie te starten</p>
+
+    <form method="POST" action="{{ url_for('main.login') }}">
+
+      <div class="form-group">
+        <label for="email">E-mailadres</label>
+        <input type="email" id="email" name="email" placeholder="Voer je e-mailadres in" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Wachtwoord</label>
+        <input type="password" id="password" name="password" placeholder="Voer je wachtwoord in" required>
+      </div>
+
+      <div class="forgot">
+        <a href="{{ url_for('main.wachtwoord_vergeten') }}">Wachtwoord vergeten?</a>
+      </div>
+
+      <button type="submit" class="btn">Inloggen</button>
+
+      <p class="info-text">
+        Nog geen account? <a href="{{ url_for('main.register') }}" class="btn-register">Registreer hier</a>
+      </p>
+
+    </form>
+
+  </div>
+{% endblock %}

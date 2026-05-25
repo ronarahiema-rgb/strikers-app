@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{%block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style_index.css') }}">
+{% endblock %}
+
+{% block header %}
+  <h1>{% block title %}Brainboost{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<section class="bb-hero">
+  <div class="bb-blob bb-blob-1"></div>
+  <div class="bb-blob bb-blob-2"></div>
+  <div class="bb-hero-tag">Bijles platform</div>
+  <h1>Slimmer leren,<br>samen met <em>BrainBoost</em></h1>
+  <p>Het platform voor leerlingen, docenten en ouders.</p>
+  <div class="bb-cta">
+<a href="{{ url_for('main.login') }}" class="bb-nav-btn">
+  <i class="bi bi-box-arrow-in-right"></i> Inloggen
+</a>
+  </div>
+</section>
+
+<section class="bb-roles">
+  <div class="bb-role-card">
+    <div class="bb-role-icon"></div>
+    <h3>Leerling</h3>
+    <p>Check in, stel vragen en volg je sessie</p>
+  </div>
+  <div class="bb-role-card">
+    <div class="bb-role-icon"></div>
+    <h3>Docent</h3>
+    <p>Beantwoord vragen en bekijk overzichten</p>
+  </div>
+  <div class="bb-role-card">
+    <div class="bb-role-icon"></div>
+    <h3>Ouder</h3>
+    <p>Volg de voortgang van je kind</p>
+  </div>
+</section>
+{% endblock %}
+
+
+

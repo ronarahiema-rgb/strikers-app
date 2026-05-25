@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-container">
+    
+    <h2 style="text-align: center; color: #444; margin-bottom: 30px; font-weight: bold;">
+        Vragenoverzicht
+    </h2>
+
+    {% if vragen %}
+        {% for item in vragen %}
+            {% set kleuren = ['border-paars', 'border-rood', 'border-roze', 'border-geel', 'border-blauw'] %}
+            {% set kleur_class = kleuren[loop.index0 % 5] %}
+
+            <div class="vraag-capsule {{ kleur_class }}">
+                <div class="vraag-tekst">
+                    {{ item.vraag }}
+                    
+                    {% if item.student_id == current_user_id %}
+                        <span style="display: inline-block; background-color: #E91144; color: white; padding: 2px 10px; border-radius: 12px; font-size: 0.8rem; margin-left: 10px; vertical-align: middle;">
+                            Jouw vraag
+                        </span>
+                    {% endif %}
+                </div>
+                
+                <div style="margin-top: 5px;">
+                    <span class="antwoord-label">Antwoord:</span>
+                    <p class="antwoord-tekst">{{ item.antwoord }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="vraag-capsule border-blauw" style="text-align: center;">
+            <p style="margin: 0;">Er zijn nog geen vragen beantwoord.</p>
+        </div>
+    {% endif %}
+
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="{{ url_for('main.index') }}" 
+           style="color: #666; text-decoration: none; font-weight: bold;">
+           ← Terug naar home
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,226 @@
+/* ── 1. Globale Variabelen ── */
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700;800&family=Karla:wght@400;500;700&display=swap');
+
+:root {
+  --bb-blue:    rgb(82, 121, 186);
+  --bb-teal:    rgb(4, 184, 188);
+  --bb-red:     rgb(233, 17, 68);
+  --bb-red-dark: #c40e3a;
+  --bb-indigo:  rgb(55, 66, 143);
+  --bb-mint:    rgb(151, 215, 218);
+  --bb-light-blue: #e6f4ff;
+  --bb-success: #17ed17;
+  
+  --bg:      #f7f9fc;
+  --text:    #1c1f2a;
+  --card:    #ffffff;
+  --radius:  12px;
+  --shadow:  0 8px 20px rgba(0, 0, 0, 0.1);
+  --transition: all 0.2s ease;
+}
+
+/* ── 2. Basis Reset ── */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "Karla", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+
+
+.logo {
+  font-family: "Inconsolata", monospace;
+  font-weight: 700;
+  color: white !important;
+  text-decoration: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ── 4. Layout & Containers ── */
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.form-wrapper {
+  max-width: 600px;
+  width: 95%; /* Mobiel eerste */
+  margin: 40px auto;
+  padding: 30px;
+  background: var(--bb-light-blue);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid #e1efff;
+}
+
+@media (min-width: 768px) {
+  .form-wrapper { width: 60%; } /* Desktop breedte */
+}
+
+/* ── 5. Batterij Selector ── */
+.battery-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  position: relative;
+}
+
+.battery-container input { display: none; }
+
+.battery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 3px solid #333;
+  border-radius: 12px;
+  width: 85px;
+  height: 160px;
+  position: relative;
+  background: #eee;
+}
+
+.battery-tip {
+  width: 30px;
+  height: 12px;
+  background: #333;
+  border-radius: 2px 2px 0 0;
+  position: absolute;
+  top: -14px;
+}
+
+.cells {
+  display: flex;
+  flex-direction: column-reverse;
+  flex: 1;
+  width: 100%;
+  padding: 4px 0;
+}
+
+.cell {
+  flex: 1;
+  margin: 2px 6px;
+  background: #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+/* Batterij Vul-logica */
+#energy1:checked ~ .battery .cells label[for="energy1"],
+#energy2:checked ~ .battery .cells label[for="energy1"],
+#energy2:checked ~ .battery .cells label[for="energy2"],
+#energy3:checked ~ .battery .cells label[for="energy1"],
+#energy3:checked ~ .battery .cells label[for="energy2"],
+#energy3:checked ~ .battery .cells label[for="energy3"],
+#energy4:checked ~ .battery .cells label[for="energy1"],
+#energy4:checked ~ .battery .cells label[for="energy2"],
+#energy4:checked ~ .battery .cells label[for="energy3"],
+#energy4:checked ~ .battery .cells label[for="energy4"] {
+  background: var(--bb-success);
+}
+
+/* ── 6. Formulier Elementen ── */
+.form-group { margin-bottom: 16px; }
+
+label { font-weight: 700; display: block; margin-bottom: 5px; }
+
+input[type="text"], input[type="email"], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--bb-teal);
+  color: white;
+}
+
+/* ── 7. Knoppen ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.btn-danger {
+  background: var(--bb-red);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: var(--bb-red-dark);
+}
+
+/* ── 8. Meldingen ── */
+.error-message {
+  display: none;
+  color: #b00020;
+  background: #ffe6e6;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  border: 1px solid #ffcccc;
+}
+
+.error-message.show { 
+  display: block; 
+}
+
+/* ── Bevestigingspopup overlay ── */
+
+/* Donkere achtergrond over de hele pagina */
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Witte kaart in het midden van de overlay */
+.overlay-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 380px;
+    width: 90%;
+    text-align: center;
+}
+
+/* Beschrijvende tekst in de popup */
+.overlay-tekst {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+/* Knoppen naast elkaar in de popup */
+.overlay-knoppen {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 1rem;
+}
+

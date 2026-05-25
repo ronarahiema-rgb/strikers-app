@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}BrainBoost – Check-in{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/check_in.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+{% endblock %}
+
+{% block content %}
+  <form class="form-wrapper" action="/check-in_form" method="POST">
+    <!-- bage primary: blue label, <span> sits on the same line with an element unlike <div> -->
+    <h2>Welkom! <span class="badge badge-primary">Check-in</span></h2>
+
+    <!-- Mood check -->
+    <div class="form-group">
+      <label title="Verdrietig tot Vrolijk">Hoe zit je er bij vandaag?ℹ️</label>
+      <div class="d-flex align-items-center">
+        <iconify-icon icon="ic:baseline-cloud" style="color: lightblue; font-size: 40px;"></iconify-icon> 
+        <!-- slider mx-2 is a slider with a margin gap 2 -->
+        <input  type="range" name="mood" min="1" max="100" value="50" class="slider mx-2">
+        <iconify-icon icon="material-symbols:clear-day-rounded" style="color: yellow; font-size: 40px;"></iconify-icon>
+      </div>
+    </div>
+
+    <!-- Emoji Status -->
+    <div class="form-group">
+      <label title="Kies een Emoji met jouw status vandaag:">Wat is de status?ℹ️</label>
+      <!-- `d-flex` aligns horizontally, `justify-content-around spreads everything evenly `pick-group` highlights selected emoji -->
+      <div class="d-flex justify-content-around pick-group">
+        <label class="pick-btn" title="Overstuur"><input type="radio" name="status" value="20">😟</label>
+        <label class="pick-btn" title="Moe"><input type="radio" name="status" value="40">😴</label>
+        <label class="pick-btn" title="Matig"><input type="radio" name="status" value="60">🤢</label>
+        <label class="pick-btn" title="Oké"><input type="radio" name="status" value="80">😑</label>
+        <label class="pick-btn" title="Top!"><input type="radio" name="status" value="100" required>😁</label>
+      </div>
+    </div>
+    <!-- Doel voor vandaag -->
+    <div class="form-group">
+      <label title="Doel voor vandaag?">Focus target?ℹ️</label>
+      <textarea name="focus_target" class="form-control" rows="2" placeholder="Vandaag wil ik hoofdstuk 3 van biologie geleerd hebben…" required></textarea>
+    </div>
+    <!-- Rugzak check -->
+    <div class="form-group">
+      <label title="Heb je veel werk voor vandaag?">Rugzak check ℹ️</label>
+      <div class="d-flex justify-content-around pick-group">
+        <label class="pick-btn" title="Leeg"><input type="radio" name="backpack" value="33">🎒</label>
+        <label class="pick-btn" title="Medium"><input type="radio" name="backpack" value="66">🎒</label>
+        <label class="pick-btn" title="Vol"><input type="radio" name="backpack" value="100" required>🎒</label>
+      </div>
+      <!-- `d-flex` lines up 3 labels horizontally, `justify-content-around`spreadsit evenly `mt-1`- margin-top -->
+      <div class="d-flex justify-content-around text-muted small mt-1">
+        <span>Licht</span><span>Zwaarder</span><span>Zwaar</span>
+      </div>
+    </div>
+
+    <!-- <div class="form-group">
+      <label>Anonieme vraag</label>
+      <textarea name="anonymous_question" class="form-control anon-field" rows="2" placeholder="Stel hier anoniem een vraag aan je leraar…"></textarea>
+      <small class="text-muted">🔒 Jouw naam wordt nooit getoond.</small>
+    </div> -->
+
+    <button type="submit" class="btn btn-danger">Check in!</button>
+    <div class="text-muted small mt-1">
+    ⚠️ Vul alles in voor je verder gaat!
+    </div>
+  </form>
+{% endblock %}
+

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}BrainBoost – Ouder Dashboard{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 900px; margin: 2rem auto; padding: 2rem;">
+  <h1>Welkom, {{ session['user'] }}</h1>
+  <p class="subtitle">Hier zie je de voortgang van jouw kind(eren).</p>
+
+  <div style="margin: 1.5rem 0;">
+    <a href="{{ url_for('main.ouder_koppelen') }}" class="btn">Kind koppelen</a>
+  </div>
+
+  {% if studenten %}
+    {% for student in studenten %}
+      <div class="card" style="margin-bottom: 1.5rem; padding: 1.5rem; border: 1px solid #ddd; border-radius: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h2 style="margin: 0;">{{ student['naam'] }}</h2>
+         <form method="POST"
+              action="{{ url_for('main.ouder_ontkoppelen', student_id=student['student_id']) }}"
+              data-naam="{{ student['naam'] }}"
+              <form method="POST"
+      action="{{ url_for('main.ouder_ontkoppelen', student_id=student['student_id']) }}"
+      data-naam="{{ student['naam'] }}"
+      onsubmit="return confirmUnlink(this)">onsubmit="return confirmUnlink(this)">
+            <button type="submit" style="background: none; border: 1px solid #E91144; color: #E91144; padding: 4px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">Ontkoppelen</button>
+          </form>
+        </div>
+
+        {% if student['checkins'] %}
+          <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+            <thead>
+              <tr style="background-color: #f0f0f0; text-align: left;">
+                <th style="padding: 8px; border-bottom: 2px solid #ccc;">Datum & tijd</th>
+                <th style="padding: 8px; border-bottom: 2px solid #ccc;">Stemming</th>
+                <th style="padding: 8px; border-bottom: 2px solid #ccc;">Status</th>
+                <th style="padding: 8px; border-bottom: 2px solid #ccc;">Leerdoel</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for c in student['checkins'] %}
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 8px;">{{ c['created_at'] }}</td>
+                <td style="padding: 8px;">{{ c['mood'] }}</td>
+                <td style="padding: 8px;">{{ c['status'] }}</td>
+                <td style="padding: 8px;">{{ c['focus_target'] }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p style="color: #888; margin-top: 0.5rem;">Nog geen check-ins gevonden.</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  {% else %}
+    <div style="margin-top: 1rem; padding: 1rem; background: #fff8e1; border-radius: 10px; border-left: 4px solid #f9a825;">
+      <p>Je hebt nog geen kind gekoppeld. Klik hierboven op "Kind koppelen" om te beginnen.</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

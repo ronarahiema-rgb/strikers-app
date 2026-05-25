@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Wijzigen event{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <form method="post">
+      <p>
+        <label for="description">Omschrijving</label>
+        <input id="description" type="text" name="description" value="{{ event['description'] }}" required />
+      </p>
+      <p>
+        <label for="date">Datum</label>
+        <input id="date" type="date" name="date" value="{{ event['eventDate'].strftime('%Y-%m-%d') }}" required />
+      </p>
+      <p class="actions">
+        <button class="btn btn-primary" type="submit">Opslaan</button>
+        <a class="btn btn-secondary" href="{{ url_for('events.view', event_id=event['eventId']) }}">Terug</a>
+      </p>
+    </form>
+  </div>
+{% endblock %}

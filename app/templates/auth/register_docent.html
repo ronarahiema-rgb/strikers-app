@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}BrainBoost – Registreren als docent{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_login.css') }}">
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+
+    <h1>Welkom bij BrainBoost</h1>
+    <p class="subtitle">Maak een docentaccount aan</p>
+
+    <form method="POST" action="{{ url_for('main.register_docent') }}">
+
+      <div class="form-group">
+        <label for="naam">Voornaam</label>
+        <input type="text" id="naam" name="naam" placeholder="Voer je voornaam in" required>
+      </div>
+
+      <div class="form-group">
+        <label for="achternaam">Achternaam</label>
+        <input type="text" id="achternaam" name="achternaam" placeholder="Voer je achternaam in" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-mailadres</label>
+        <input type="email" id="email" name="email" placeholder="Voer je e-mailadres in" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Wachtwoord</label>
+        <input type="password" id="password" name="password" placeholder="Minimaal 6 tekens" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password_confirm">Wachtwoord bevestigen</label>
+        <input type="password" id="password_confirm" name="password_confirm" placeholder="Herhaal je wachtwoord" required>
+      </div>
+
+      <button type="submit" class="btn" style="margin-top: 8px;">Registreren</button>
+
+      <p class="info-text">
+        Al een account? <a href="{{ url_for('main.login') }}" class="btn-register">Log hier in</a>
+      </p>
+
+      <p class="info-text">
+        Leerling? <a href="{{ url_for('main.register_leerling') }}" class="btn-register">Registreer hier</a>
+        &nbsp;|&nbsp;
+        Ouder? <a href="{{ url_for('main.register_ouder') }}" class="btn-register">Registreer hier</a>
+      </p>
+
+    </form>
+
+  </div>
+{% endblock %}

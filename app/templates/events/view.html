@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}{{ event['description'] }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <table>
+      <tbody>
+        <tr>
+          <td class="fitwidth">Datum</td>
+          <td>{{ event['eventDate'].strftime('%Y-%m-%d') }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="actions">
+    <a class="btn btn-secondary" href="{{ url_for('events.edit', event_id=event['eventId']) }}">Wijzigen</a>
+    <a class="btn btn-primary" href="{{ url_for('events.index') }}">Terug naar overzicht</a>
+  </p>
+{% endblock %}

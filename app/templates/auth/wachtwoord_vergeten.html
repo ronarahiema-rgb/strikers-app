@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}BrainBoost – Wachtwoord vergeten{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_login.css') }}">
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+
+    <h1>Wachtwoord vergeten</h1>
+    <p class="subtitle">Vul je e-mailadres in en je ontvangt een tijdelijk wachtwoord.</p>
+
+    <form method="POST" action="{{ url_for('main.wachtwoord_vergeten') }}">
+
+      <div class="form-group">
+        <label for="email">E-mailadres</label>
+        <input type="email" id="email" name="email" placeholder="Voer je e-mailadres in" required>
+      </div>
+
+      <button type="submit" class="btn" style="margin-top: 8px;">Verstuur tijdelijk wachtwoord</button>
+
+      <p class="info-text">
+        Weet je het toch nog? <a href="{{ url_for('main.login') }}" class="btn-register">Terug naar inloggen</a>
+      </p>
+
+    </form>
+
+  </div>
+{% endblock %}

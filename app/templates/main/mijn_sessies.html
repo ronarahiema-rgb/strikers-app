@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}BrainBoost – Mijn sessies{% endblock %}
+
+{% block content %}
+{% block extra_js %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
+{% endblock %}
+<div class="card" style="max-width: 1200px; margin: 2rem auto; padding: 2rem;">
+
+  <h1>Mijn sessies</h1>
+  <p>Hier zie je al jouw check-ins terug. Je hebt in totaal <strong>{{ totaal_sessies }}</strong> sessies gedaan.</p>
+
+  <!-- Grafiek -->
+  {% if chart_data %}
+  <h2>Stemming over tijd</h2>
+  <canvas id="geschiedenisChart" style="margin-bottom: 2rem;"></canvas>
+  {% endif %}
+
+  <!-- Tabel -->
+  <h2>Alle check-ins</h2>
+
+  {% if geschiedenis %}
+  <table style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr style="background-color: #f0f0f0; text-align: left;">
+        <th style="padding: 8px; border-bottom: 2px solid #ccc;">Datum</th>
+        <th style="padding: 8px; border-bottom: 2px solid #ccc;">Tijd</th>
+        <th style="padding: 8px; border-bottom: 2px solid #ccc;">Stemming</th>
+        <th style="padding: 8px; border-bottom: 2px solid #ccc;">Status</th>
+        <th style="padding: 8px; border-bottom: 2px solid #ccc;">Focus target</th>
+        <th style="padding: 8px; border-bottom: 2px solid #ccc;">Rugzak zwaarte</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for rij in geschiedenis %}
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="padding: 8px;">{{ rij['dag'][8:10] }}-{{ rij['dag'][5:7] }}-{{ rij['dag'][0:4] }}</td>
+        <td style="padding: 8px;">{{ rij['tijd'] }}</td>
+        <td style="padding: 8px;">{{ rij['mood'] }}</td>
+        <td style="padding: 8px;">
+          {% set status = rij['status'] | int %}
+          {% if status <= 20 %}😟
+          {% elif status <= 40 %}😴
+          {% elif status <= 60 %}🤢
+          {% elif status <= 80 %}😑
+          {% else %}😁
+          {% endif %}
+        </td>
+        <td style="padding: 8px;">{{ rij['focus_target'] }}</td>
+        <td style="padding: 8px;">{{ rij['backpack'] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% else %}
+  <p>Je hebt nog geen sessies. Check in om te beginnen!</p>
+  {% endif %}
+
+</div>
+
+{% if chart_data %}
+<script>
+  const data = JSON.parse('{{ chart_data | tojson }}');
+
+  const labels = data.map(r => r.dag);
+  const mood = data.map(r => r.avg_mood);
+  const status = data.map(r => r.avg_status);
+  const backpack = data.map(r => r.avg_backpack);
+
+  new Chart(document.getElementById('geschiedenisChart'), {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        { label: 'Stemming', data: mood, backgroundColor: '#264fe0' },
+        { label: 'Status', data: status, backgroundColor: '#f9c940' },
+        { label: 'Rugzak', data: backpack, backgroundColor: '#e8372a' }
+      ]
+    },
+    options: {
+      scales: {
+        y: { min: 0, max: 100 }
+      }
+    }
+  });
+</script>
+{% endif %}
+
+{% endblock %}

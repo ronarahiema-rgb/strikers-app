@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}BrainBoost – Docenten Dashboard{% endblock %}
+
+
+{% block content %}
+
+
+<div>
+    <h1 >Docenten Dashboard</h1>
+
+    <div class="dashboard-grid">
+        
+        <div class="dashboard-sectie">
+            <h3>Anonieme vragen</h3>
+            
+            <div>
+                {% if preview_vragen %}
+                    {% for vraag in preview_vragen %}
+                        <div class="preview-vraag">
+                            <p>{{ vraag.vraag }}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="preview-vraag">
+                        <p >Er zijn geen openstaande vragen.</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <a href="{{ url_for('main.manage_questions') }}" class="btn btn-primary">
+            Ga naar vragen beantwoorden
+            </a>
+        </div>
+
+        <div class="dashboard-sectie">
+            <h3>Leerlingen</h3>
+            <div style="margin-top: 10px;"></div>
+                <a href="#" class="btn btn-primary" style="display: block; margin-bottom: 10px; text-align: left;">
+                    🔍 Leerlingenlijst
+                </a>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 20px; width: 100%; grid-column: 1 / -1; margin-top: 35px;">
+            
+            <div class="dashboard-sectie" style="flex: 1;">
+                <h3>Check in grafiek (gemiddelde)</h3>
+                <div style="position: relative; width: 100%; height: 320px;">
+                    <canvas id="checkinChart"></canvas>
+                </div>
+            </div>
+
+            <div class="dashboard-sectie" style="flex: 1;">
+                <h3>Check out grafiek (gemiddelde)</h3>
+                <div style="position: relative; width: 100%; height: 320px;">
+                    <canvas id="checkoutChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
+<script>
+  // 1. HULPFUNCTIES
+  function getCheckinTekst(cijfer) {
+      if (cijfer < 5.5) return "Lage energie of motivatie aan het begin.";
+      if (cijfer < 7.5) return "Prima start, neutraal tot goed. geen zorgen!";
+      return "Hoge energie! Helemaal klaar voor de les. Heeft er zin in! :)";
+  }
+
+  function getCheckoutTekst(cijfer) {
+      if (cijfer < 5.5) return "Uitgechekt met lage energie. Heeft waarschijnlijk nog extra hulp of uitleg nodig.";
+      if (cijfer < 7.5) return "Heeft de basis redelijk tot goed begrepen. En energie is nog steeds prima.";
+      return "Heeft de stof helemaal door! Hoge energie en motivatie.";
+  }
+
+  // -- CHECK-IN CHART --
+  const data = JSON.parse('{{ in_chart_data | tojson }}');
+  const labels = data.map(r => r.name); 
+  const scores = data.map(r => (r.gemiddelde_score / 10).toFixed(1));
+
+  new Chart(document.getElementById('checkinChart'), {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Check-in Cijfer',
+        data: scores,
+        backgroundColor: '#4A90E2'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              let cijfer = context.parsed.y;
+              let beschrijving = getCheckinTekst(cijfer);
+              return ` Cijfer: ${cijfer} - ${beschrijving}`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: { 
+            min: 0, 
+            max: 10, 
+            title: { display: true, text: 'Rapportcijfer (1-10)' }
+        },
+        x: { 
+            title: { display: true, text: 'Studenten' }
+        }
+      }
+    }
+  });
+
+
+  // -- CHECK-OUT CHART --
+  const checkoutData = JSON.parse('{{ checkout_data | tojson }}') || [];
+  if (!Array.isArray(checkoutData)) { console.log('checkout_data is not an array:', checkoutData); }
+
+  const checkoutLabels = checkoutData.map(r => r.name);
+  const checkoutScores = checkoutData.map(r => (r.gemiddelde_score / 10).toFixed(1));
+
+  new Chart(document.getElementById('checkoutChart'), {
+    type: 'bar',
+    data: {
+      labels: checkoutLabels,
+      datasets: [{
+        label: 'Check-out Cijfer',
+        data: checkoutScores,
+        backgroundColor: '#E91144'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              let cijfer = context.parsed.y;
+              let beschrijving = getCheckoutTekst(cijfer);
+              return ` Cijfer: ${cijfer} - ${beschrijving}`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: { 
+            min: 0, 
+            max: 10, 
+            title: { display: true, text: 'Rapportcijfer (1-10)' }
+        },
+        x: { 
+            title: { display: true, text: 'Studenten' }
+        }
+      }
+    }
+  });
+</script>
+{% endblock %}

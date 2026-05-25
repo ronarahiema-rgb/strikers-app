@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}BrainBoost – Kind koppelen{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_login.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h1>Kind koppelen</h1>
+  <p class="subtitle">Vul het e-mailadres in van de leerling die je wilt volgen.</p>
+
+  <form method="POST" action="{{ url_for('main.ouder_koppelen') }}">
+
+    <div class="form-group">
+      <label for="student_email">E-mailadres van je kind</label>
+      <input type="email" id="student_email" name="student_email" placeholder="voorbeeld@school.nl" required>
+    </div>
+
+    <button type="submit" class="btn">Koppelen</button>
+
+    <p class="info-text">
+      <a href="{{ url_for('main.ouder_home') }}" class="btn-register">Terug naar dashboard</a>
+    </p>
+
+  </form>
+</div>
+{% endblock %}

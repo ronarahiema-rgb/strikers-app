@@ -1,0 +1,52 @@
+<nav class="navbar">
+  <div class="nav-left">
+    <a href="{{ url_for('main.index') }}" class="nav-logo-link">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="nav-logo">
+    </a>
+    <ul class="nav-menu">
+   {% if session.get('rol') == 'leerling' %}
+        <li><a href="{{ url_for('main.check_in') }}">Check-in</a></li>
+        <li><a href="{{ url_for('main.mijn_sessies') }}">Mijn sessies</a></li>
+        <li><a href="{{ url_for('main.questions_overview') }}">Vragenoverzicht</a></li>
+        
+        <li>
+          <a href="{{ url_for('main.questions_overview') }}" style="position: relative; display: inline-flex; align-items: center;" title="Notificaties">
+            <i class="bi bi-bell-fill" style="font-size: 1.2rem;"></i>
+            
+            {% if notificaties and notificaties|length > 0 %}
+              <span style="position: absolute; top: -8px; right: -12px; background-color: #E91144; color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.75rem; font-weight: bold; line-height: 1;">
+                {{ notificaties|length }}
+              </span>
+            {% endif %} </a>
+        </li>
+      {% endif %}
+      {% if session.get('rol') == 'docent' %}
+        <li><a href="{{ url_for('main.docent_home') }}">Dashboard</a></li>
+        <li><a href="{{ url_for('main.manage_questions') }}">Vragen</a></li>
+      {% endif %}
+      {% if session.get('rol') == 'ouder' %}
+        <li><a href="{{ url_for('main.ouder_home') }}">Mijn kinderen</a></li>
+        <li><a href="{{ url_for('main.ouder_koppelen') }}">Kind koppelen</a></li>
+      {% endif %}
+    </ul>
+  </div>
+
+
+  <div class="nav-center">
+    <span class="brand-text">brain<br>boost</span>
+  </div>
+
+  <div class="nav-right">
+    {% if session.get('user') %}
+      <div class="user-dropdown">
+        <span class="user-name user-dropdown-toggle">{{ session['user'] }} <i class="bi bi-chevron-down"></i></span>
+        <div class="user-dropdown-menu">
+          <a href="{{ url_for('main.wachtwoord_wijzigen') }}">Wachtwoord wijzigen</a>
+          <a href="{{ url_for('main.logout') }}">Uitloggen</a>
+        </div>
+      </div>
+    {% else %}
+      <a href="{{ url_for('main.login') }}">Inloggen</a>
+    {% endif %}
+  </div>
+</nav>

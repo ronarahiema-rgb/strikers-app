@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% block extra_js %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
+{% endblock %}
+
+<div class="sessie-wrapper">
+  <div class="sessie-columns">
+    <div class="card sessie-kolom linker">
+      <h1>Welkom!</h1>
+      <h2>Je bent ingecheckt!</h2>
+      <p>Vergeet niet uit te checken!</p>
+        <!-- Timer hier -->
+         <h4>Ingecheckt sinds: {{hours}} : {{minutes}}</h4>
+         <div id="timer"></div>
+      <div class="sessie-btn-container">
+        <a href="{{ url_for('main.check_out') }}" class="btn btn-gevaar">
+          Uitchecken
+        </a>
+      </div>
+    </div>
+
+    <div class="card sessie-kolom rechter">
+      <h2>Overzicht Sessie</h2>
+
+      <div class="sessie-grafiek">
+        <canvas id="studentChart" width="70%", max-width="300px"></canvas>
+        
+      </div>
+
+      <div class="sessie-vragen">
+        <h3>Stel een anonieme vraag</h3>
+        <form action="{{ url_for('main.ask_question') }}" method="post">
+          <textarea
+            name="vraag"
+            placeholder="Typ hier je vraag..."
+            rows="4"
+            required
+          ></textarea>
+          <button type="submit" class="btn btn-gevaar">
+            Verstuur
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // timer
+  if ("{{ hours_passed }}" == "X") { document.getElementById('timer').innerText = "--:--" }
+  else {
+  let hours   = parseInt("{{ hours_passed }}");
+  let minutes = parseInt("{{ minutes_passed }}");
+  let seconds = 0
+  document.getElementById('timer').innerText = 
+      `${String(minutes).padStart(2,'0')}:00`; 
+
+  setInterval(function() {
+    seconds++;
+    if (seconds === 60) { seconds = 0; minutes++ }
+    if (minutes === 60) { minutes = 0; hours++; }
+    document.getElementById('timer').innerText = 
+      `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`; 
+      // ${hours}: before minutes
+  }, 1000);};
+
+// grafiek
+
+const data = JSON.parse('{{ chart_data | tojson }}');
+
+  const labels = data.map(r => r.dag.slice(0, 7));
+  const mood = data.map(r => r.avg_mood);
+  const status = data.map(r => r.avg_status);
+  const backpack = data.map(r => r.avg_backpack);
+
+  new Chart(document.getElementById('studentChart'), {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        { label: 'Mood', data: mood, backgroundColor: '#264fe0' },
+        { label: 'Status', data: status, backgroundColor: '#f9c940' },
+        { label: 'Rugzak', data: backpack, backgroundColor: '#e8372a' }
+      ]
+    },
+    options: {
+      scales: {
+        y: { min: 0, max: 100, title: { display: true, text: 'Score' } },
+        x: { title: { display: true, text: 'Maand' } }
+      }
+    }
+  });
+</script>
+
+{% endblock %}

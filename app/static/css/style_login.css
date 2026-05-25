@@ -1,0 +1,158 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main.main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  margin: 0;
+  padding: 24px 16px;
+}
+
+main.main section {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+main.main header {
+  display: none;
+}
+
+.card {
+  background: #e8edf5;
+  border-radius: 20px;
+  padding: 40px 32px;
+  width: 100%;
+  max-width: 500px;
+  border: none;
+  box-shadow: none;
+}
+
+h1 {
+  font-size: 22px;
+  color: #37428F;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  font-size: 15px;
+  padding: 12px 14px;
+  border: 2px solid #d1d5db;
+  border-radius: 10px;
+  min-height: unset;
+}
+
+.form-group input:focus {
+  border-color: #04B8BC;
+}
+
+.form-group select {
+  width: 100%;
+  font-size: 15px;
+  padding: 12px 14px;
+  border: 2px solid #d1d5db;
+  border-radius: 10px;
+  background: white;
+  color: #374151;
+  appearance: none;
+}
+
+.form-group select:focus {
+  border-color: #04B8BC;
+  outline: none;
+}
+
+.forgot {
+  text-align: right;
+  margin-bottom: 16px;
+}
+
+.forgot a {
+  font-size: 13px;
+  color: #37428F;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn {
+  width: 100%;
+  font-family: "Inconsolata", monospace;
+  font-weight: 700;
+  font-size: 16px;
+  color: white;
+  background: #E91144;
+  border: none;
+  border-radius: 28px;
+  padding: 14px;
+  cursor: pointer;
+  height: auto;
+  display: block;
+}
+
+.btn:hover {
+  background: #c40e3a;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.alert {
+  background: #fde8ec;
+  color: #c40e3a;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  text-align: center;
+  border: none;
+  font-weight: normal;
+}
+
+.info-text {
+  text-align: center;
+  font-size: 13px;
+  color: #6b7280;
+  margin-top: 20px;
+}
+
+.btn-register {
+  font-family: "Karla", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #37428F;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.btn-register:hover {
+  color: #04B8BC;
+}
+

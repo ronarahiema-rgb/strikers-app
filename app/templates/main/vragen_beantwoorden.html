@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}BrainBoost – Vragen Beantwoorden{% endblock %}
+
+{% block content %}
+<div class="docent-vragen-container">
+    <h2>Anonieme vragen</h2>
+
+    {% if open_vragen %}
+        {% for vraag in open_vragen %}
+        <div class="vraag-rij-wrapper">
+            <div class="vraag-rij">
+                
+                <div class="vraag-bubbel">
+                    <p style="margin: 0; font-weight: bold;">Vraag:</p>
+                    <p style="margin-top: 5px; margin-bottom: 0;">{{ vraag.vraag }}</p>
+                    
+               <form action="{{ url_for('main.submit_answer', vraag_id=vraag.id) }}" method="POST" class="antwoord-formulier">
+    <textarea name="antwoord" rows="2" placeholder="Typ hier direct je antwoord..." required></textarea>
+    <button type="submit" class="btn-actie btn-groen">Antwoord Versturen</button>
+</form>
+                </div>
+                
+                <div class="vraag-acties">
+                    <form action="{{ url_for('main.remove_question', vraag_id=vraag.id) }}" method="POST" onsubmit="return confirm('Weet je zeker dat je deze vraag wilt verwijderen?');">
+                        <button type="submit" class="btn-actie btn-rood">Verwijderen</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="vraag-bubbel" style="border-color: #ccc; color: #666; text-align: center;">
+            Er zijn op dit moment geen onbeantwoorde vragen.
+        </div>
+    {% endif %}
+
+    <div class="terug-container" style="margin-top: 30px; text-align: center;">
+        <a href="{{ url_for('main.docent_home') }}" class="btn btn-secondary">Terug naar Dashboard</a>
+    </div>
+</div>
+{% endblock %}
